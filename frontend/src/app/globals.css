@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+/* ── ReactFlow overrides ── */
+.react-flow__node {
+  cursor: pointer;
+}
+
+.react-flow__node:hover {
+  filter: brightness(0.95);
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: #6366f1;
+  stroke-width: 2.5;
+}
+
+/* ── Markmap overrides ── */
+.markmap-node {
+  cursor: pointer;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;
+}
+
+/* ── Print: hide UI, scale SVG to fit landscape A4 ── */
+@media print {
+  @page {
+    size: A4 landscape;
+    margin: 5mm;
+  }
+
+  header,
+  nav,
+  .flex-shrink-0,
+  button,
+  [class*="absolute"][class*="top-"][class*="right-"] {
+    display: none !important;
+  }
+
+  html, body {
+    background: white !important;
+    overflow: visible !important;
+    width: 100% !important;
+    height: auto !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .flex-1.min-h-0 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    width: 100vw !important;
+    height: 100vh !important;
+  }
+
+  svg {
+    display: block !important;
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    margin: 0 auto !important;
+  }
+}
