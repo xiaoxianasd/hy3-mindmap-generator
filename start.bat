@@ -1,5 +1,4 @@
 @echo off
-chcp 65001 >nul 2>&1
 echo ========================================
 echo   MindGraph AI - Starting...
 echo ========================================
@@ -7,7 +6,7 @@ echo.
 
 cd /d "%~dp0"
 
-REM ── 清理可能残留的旧进程 ──
+REM -- Kill stale processes --
 taskkill /FI "WINDOWTITLE eq MindGraph-Backend*" /F 2>nul
 taskkill /FI "WINDOWTITLE eq MindGraph-Frontend*" /F 2>nul
 
