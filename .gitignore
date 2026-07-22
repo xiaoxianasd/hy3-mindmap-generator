@@ -1,0 +1,18 @@
+# 环境变量（含 API Key，禁止提交）
+backend/.env
+
+# Python
+__pycache__/
+*.pyc
+
+# Node.js
+node_modules/
+.next/
+
+# IDE
+.vscode/
+.idea/
+
+# 系统文件
+Thumbs.db
+.DS_Store

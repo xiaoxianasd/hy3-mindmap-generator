@@ -1,0 +1,12 @@
+{
+  "name": "mindgraph-ai",
+  "version": "1.0.0",
+  "description": "基于腾讯混元 Hy3 的知识图谱 & 思维导图自动生成器",
+  "scripts": {
+    "install:all": "node -e \"require('fs').existsSync('backend/.env')||require('fs').copyFileSync('backend/.env.example','backend/.env')\" && cd backend && pip install -r requirements.txt && cd ../frontend && npm install",
+    "start": "concurrently -n backend,frontend -c blue,green \"cd backend && python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload\" \"cd frontend && npm run dev\""
+  },
+  "dependencies": {
+    "concurrently": "^10.0.3"
+  }
+}
