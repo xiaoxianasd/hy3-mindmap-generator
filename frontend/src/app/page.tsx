@@ -120,6 +120,7 @@ export default function Home() {
     if (event.type === "error") {
       setLoading(false);
       setExpanding(false);
+      alert("生成失败: " + event.message);
     }
   }, []);
 

@@ -77,14 +77,16 @@ class Hy3Client:
         Returns:
             模型回复文本 (若启用 json_schema 则为 JSON 字符串)
         """
-        extra_body = {
-            "chat_template_kwargs": {"reasoning_effort": reasoning_effort}
-        }
-        if prompt_cache_key:
-            extra_body["prompt_cache_key"] = prompt_cache_key
+        # Hy3 专属参数（仅 Hy3 模型时传递）
+        is_hy3 = "hy3" in self.model.lower()
+        extra_body = {}
+        if is_hy3:
+            extra_body["chat_template_kwargs"] = {"reasoning_effort": reasoning_effort}
+            if prompt_cache_key:
+                extra_body["prompt_cache_key"] = prompt_cache_key
 
         extra_headers = {}
-        if session_id:
+        if is_hy3 and session_id:
             extra_headers["X-Session-ID"] = session_id
 
         kwargs = {
@@ -113,7 +115,16 @@ class Hy3Client:
         logger.debug(f"Hy3 chat request: model={self.model}, reasoning={reasoning_effort}, "
                       f"tokens={max_tokens}, has_schema={json_schema is not None}")
 
-        response = self.client.chat.completions.create(**kwargs)
+        try:
+            response = self.client.chat.completions.create(**kwargs)
+        except Exception as e:
+            # Fallback: if response_format/json_schema not supported, retry without it
+            if json_schema is not None and "response_format" in kwargs:
+                logger.warning(f"json_schema not supported, retrying without response_format: {e}")
+                kwargs.pop("response_format", None)
+                response = self.client.chat.completions.create(**kwargs)
+            else:
+                raise
         content = response.choices[0].message.content or ""
 
         return content
